@@ -26,4 +26,5 @@ public class Game {
     private LocalDateTime gameTimeStamp;
     private double totalAmount;
     private double totalRewardDisbursed;
+    private boolean statusFlag;
 }
