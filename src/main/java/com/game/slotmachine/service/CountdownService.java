@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CountdownService {
-    private int varCount=120;
+    @Value(
+            ("${startCount}")
+    )
+    private int varCount;
     @Autowired
     private SseService sseService;
     @Value(
