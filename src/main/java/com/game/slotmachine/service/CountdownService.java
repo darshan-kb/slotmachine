@@ -1,12 +1,18 @@
 package com.game.slotmachine.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CountdownService {
-    private int varCount=120;
+    @Value(
+            ("${startCount}")
+    )
+    private int varCount;
+    @Autowired
+    private SseService sseService;
     @Value(
             ("${startCount}")
     )
@@ -21,9 +27,11 @@ public class CountdownService {
         if(varCount==startCount){
 
         }
+        sseService.sendEvents(varCount);
         varCount--;
         if(varCount==endCount){
             varCount=startCount;
         }
+        System.out.println(varCount);
     }
 }
