@@ -1,5 +1,7 @@
 package com.game.slotmachine.service;
 
+import com.game.slotmachine.model.dto.ResultDTO;
+import com.game.slotmachine.model.payload.ResultPayload;
 import com.game.slotmachine.model.payload.SsePayload;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -31,10 +33,10 @@ public class SseService {
         }
     }
 
-    public void sendResult(int result){
+    public void sendResult(ResultDTO resultDTO){
         for(SseEmitter emitter : emitters){
             try{
-                emitter.send(new SsePayload("result",result));
+                emitter.send(new ResultPayload("result",resultDTO.slot1(), resultDTO.slot2()));
             }
             catch (IOException e){
                 e.printStackTrace();
