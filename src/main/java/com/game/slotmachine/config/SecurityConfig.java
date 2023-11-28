@@ -30,8 +30,10 @@ public class SecurityConfig {
         });
         http.authorizeHttpRequests((a) -> {
             a.requestMatchers("/sse").permitAll();
+            a.requestMatchers("/ticket").permitAll();
             a.anyRequest().authenticated();
         });
-        return http.build();
+        //http.cors().disable().build();
+        return http.csrf().disable().build();
     }
 }
