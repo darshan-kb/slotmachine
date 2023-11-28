@@ -21,8 +21,9 @@ public class TicketController {
     TicketService ticketService;
     Logger logger = LoggerFactory.getLogger(TicketController.class);
     @PostMapping
+
     public ResponseEntity<?> addTicket(@RequestBody BetArray bets){
-        TicketDTO ticketDTO = ticketService.addTicket(bets.bets());
+        TicketDTO ticketDTO = ticketService.addTicket(bets.getBets());
         return new ResponseEntity<TicketDTO>(ticketDTO, HttpStatus.OK);
     }
 

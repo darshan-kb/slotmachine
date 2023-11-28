@@ -1,6 +1,8 @@
 package com.game.slotmachine.model.mapper;
 
+import com.game.slotmachine.beans.ResultBean;
 import com.game.slotmachine.entities.Ticket;
+import com.game.slotmachine.model.dto.ResultDTO;
 import com.game.slotmachine.model.dto.TicketDTO;
 import org.springframework.stereotype.Component;
 
@@ -14,5 +16,9 @@ public class Mapper {
                 .amount(ticket.getTicketAmount())
                 .timestamp(ticket.getTicketTimeStamp())
                 .build();
+    }
+
+    public ResultDTO ResultBeanToResultDTO(ResultBean resultBean){
+        return new ResultDTO(resultBean.getSlot1(), resultBean.getSlot2());
     }
 }

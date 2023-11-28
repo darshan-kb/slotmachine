@@ -17,9 +17,6 @@ public class InitGameService {
 
     @Autowired
     CachedTotalBetsAmountMap map;
-
-    @Value("${startCount}")
-    private int timeGap;
     @Transactional
     public Game gameInit(){
         LocalDateTime startTime = LocalDateTime.now();
