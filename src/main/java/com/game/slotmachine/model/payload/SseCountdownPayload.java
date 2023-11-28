@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SsePayload {
-    private String payloadName;
+public class SseCountdownPayload {
     private int payloadValue;
 }

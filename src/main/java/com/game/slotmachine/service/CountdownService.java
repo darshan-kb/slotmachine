@@ -2,7 +2,8 @@ package com.game.slotmachine.service;
 
 import com.game.slotmachine.entities.Game;
 import com.game.slotmachine.model.dto.ResultDTO;
-import com.game.slotmachine.service.sseService.SseService;
+import com.game.slotmachine.service.sseService.SseCountdownService;
+import com.game.slotmachine.service.sseService.SseResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,8 +15,6 @@ public class CountdownService {
             ("${startCount}")
     )
     private int varCount;
-    @Autowired
-    private SseService sseService;
     @Value(
             ("${startCount}")
     )
@@ -31,6 +30,10 @@ public class CountdownService {
     InitGameService initGameService;
     @Autowired
     GameService gameService;
+    @Autowired
+    private SseCountdownService sseCountdownService;
+    @Autowired
+    private SseResultService sseResultService;
 
     @Scheduled(fixedRate = 1000)
     public void countDown(){
@@ -38,12 +41,12 @@ public class CountdownService {
             currentGame = initGameService.gameInit();
         }
         if(varCount==0){
-            sseService.sendResult(resultDTO);
+            sseResultService.sendResult(resultDTO);
         }
         if(varCount==7){
             resultDTO = gameService.calculateGameResult();
         }
-        sseService.sendEvents(varCount);
+        sseCountdownService.sendEvents(varCount);
         varCount--;
         if(varCount==endCount){
             varCount=startCount;

@@ -29,7 +29,7 @@ public class SecurityConfig {
             c.configurationSource(source);
         });
         http.authorizeHttpRequests((a) -> {
-            a.requestMatchers("/sse").permitAll();
+            a.requestMatchers("/sse/*").permitAll();
             a.requestMatchers("/ticket").permitAll();
             a.anyRequest().authenticated();
         });

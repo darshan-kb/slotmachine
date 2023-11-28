@@ -9,8 +9,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class ResultPayload {
-
-    private String payloadName;
     private List<Integer> slot1;
     private List<Integer> slot2;
 }
