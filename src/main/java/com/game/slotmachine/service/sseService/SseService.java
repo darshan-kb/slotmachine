@@ -1,4 +1,4 @@
-package com.game.slotmachine.service;
+package com.game.slotmachine.service.sseService;
 
 import com.game.slotmachine.model.dto.ResultDTO;
 import com.game.slotmachine.model.payload.ResultPayload;

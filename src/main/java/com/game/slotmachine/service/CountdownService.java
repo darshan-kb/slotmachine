@@ -2,7 +2,7 @@ package com.game.slotmachine.service;
 
 import com.game.slotmachine.entities.Game;
 import com.game.slotmachine.model.dto.ResultDTO;
-import com.game.slotmachine.repository.GameRepository;
+import com.game.slotmachine.service.sseService.SseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;

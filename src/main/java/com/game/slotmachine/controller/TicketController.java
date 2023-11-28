@@ -23,7 +23,7 @@ public class TicketController {
     @PostMapping
     public ResponseEntity<?> addTicket(@RequestBody BetArray bets){
         TicketDTO ticketDTO = ticketService.addTicket(bets.bets());
-        return ResponseEntity.ok(ticketDTO.toString());
+        return new ResponseEntity<TicketDTO>(ticketDTO, HttpStatus.OK);
     }
 
 }
