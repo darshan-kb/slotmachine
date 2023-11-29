@@ -1,6 +1,11 @@
 package com.game.slotmachine.model.dto;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-public record BetArray(List<Double> bets) {
+import java.util.List;
+@Getter
+@Setter
+public class BetArray {
+    List<Double> bets;
 }

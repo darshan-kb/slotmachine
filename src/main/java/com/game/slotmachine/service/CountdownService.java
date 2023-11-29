@@ -1,5 +1,6 @@
 package com.game.slotmachine.service;
 
+import com.game.slotmachine.beans.Countdown;
 import com.game.slotmachine.entities.Game;
 import com.game.slotmachine.model.dto.ResultDTO;
 import com.game.slotmachine.service.sseService.SseCountdownService;
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CountdownService {
-    @Value(
-            ("${startCount}")
-    )
-    private int varCount;
+//    @Value(
+//            ("${startCount}")
+//    )
+//    private int varCount;
     @Value(
             ("${startCount}")
     )
@@ -25,7 +26,8 @@ public class CountdownService {
     private int endCount;
     private Game currentGame;
     private ResultDTO resultDTO;
-
+    @Autowired
+    Countdown countdown;
     @Autowired
     InitGameService initGameService;
     @Autowired
@@ -37,21 +39,21 @@ public class CountdownService {
 
     @Scheduled(fixedRate = 1000)
     public void countDown(){
-        if(varCount==startCount){
+        if(countdown.getCountdown()==startCount){
             currentGame = initGameService.gameInit();
         }
-        if(varCount==0){
+        if(countdown.getCountdown()==0){
             sseResultService.sendResult(resultDTO);
         }
-        if(varCount==7){
+        if(countdown.getCountdown()==7){
             resultDTO = gameService.calculateGameResult();
         }
-        sseCountdownService.sendEvents(varCount);
-        varCount--;
-        if(varCount==endCount){
-            varCount=startCount;
+        sseCountdownService.sendEvents(countdown.getCountdown());
+        countdown.decrement();
+        if(countdown.getCountdown()==endCount){
+            countdown.reset();
         }
-        System.out.println(varCount);
+        System.out.println(countdown.getCountdown());
     }
 
     public Game getCurrentGame(){
@@ -60,5 +62,9 @@ public class CountdownService {
 
     public void setCurrentGame(Game game){
         currentGame = game;
+    }
+
+    public ResultDTO getResultDTO(){
+        return resultDTO;
     }
 }

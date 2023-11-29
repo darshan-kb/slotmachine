@@ -1,7 +1,9 @@
 package com.game.slotmachine.service;
 
 import com.game.slotmachine.beans.CachedTotalBetsAmountMap;
+import com.game.slotmachine.beans.ResultBean;
 import com.game.slotmachine.model.dto.ResultDTO;
+import com.game.slotmachine.model.mapper.Mapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class GameService {
     private CachedTotalBetsAmountMap betsAmountMap;
+    private ResultBean resultBean;
+    private Mapper mapper;
 
     public ResultDTO calculateGameResult(){
         List<Double> doubleBetAmountList  = betsAmountMap.getBetsMap().values().stream().map(i->i*20.0).collect(Collectors.toList());
@@ -40,8 +44,10 @@ public class GameService {
 
         List<Integer> slot1List = getShuffledList(12,winnerBet[0]);
         List<Integer> slot2List = getShuffledList(3,winnerBet[1]);
-
-        return new ResultDTO(slot1List, slot2List);
+        resultBean.setSlot1(slot1List);
+        resultBean.setSlot2(slot2List);
+        System.out.println(resultBean);
+        return mapper.ResultBeanToResultDTO(resultBean);
     }
 
     public double totalGameAmount(){
