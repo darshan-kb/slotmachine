@@ -26,7 +26,7 @@ public class TicketService {
     private CountdownService countdownService;
     private CachedTotalBetsAmountMap betMap;
     private Mapper mapper;
-    //private Logger logger = LoggerFactory.getLogger(TicketService.class);
+//    private Logger logger;
     @Transactional
     public TicketDTO addTicket(List<Double> bets){
 
@@ -42,7 +42,7 @@ public class TicketService {
                 betMap.addAmountToBet(i + 1, bets.get(i));
             }
         }
-
+        System.out.println(bets);
         return mapper.ticketToTicketDTO(ticket);
     }
 }

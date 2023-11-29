@@ -13,11 +13,19 @@ import java.util.List;
 @Getter
 @ToString
 public class ResultBean {
-    private List<Integer> slot1;
-    private List<Integer> slot2;
+    private int slot1;
+    private int slot2;
+    private double totalGameAmount;
+    private double totalAmountDisbursedToUsers;
+    private List<Integer> slot1List;
+    private List<Integer> slot2List;
     public ResultBean(){
-        slot1 = getShuffledAllElementsList(12);
-        slot2 = getShuffledAllElementsList(3);
+        slot1=0;
+        slot2=0;
+        totalAmountDisbursedToUsers=0;
+        totalGameAmount=0;
+        slot1List = getShuffledAllElementsList(12);
+        slot2List = getShuffledAllElementsList(3);
     }
 
     public List<Integer> getShuffledAllElementsList(int capacity){

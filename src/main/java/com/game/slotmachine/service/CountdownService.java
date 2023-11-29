@@ -1,9 +1,11 @@
 package com.game.slotmachine.service;
 
 import com.game.slotmachine.beans.Countdown;
+import com.game.slotmachine.beans.ResultQueue;
 import com.game.slotmachine.entities.Game;
 import com.game.slotmachine.model.dto.ResultDTO;
 import com.game.slotmachine.service.sseService.SseCountdownService;
+import com.game.slotmachine.service.sseService.SseQueueService;
 import com.game.slotmachine.service.sseService.SseResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,22 +38,28 @@ public class CountdownService {
     private SseCountdownService sseCountdownService;
     @Autowired
     private SseResultService sseResultService;
+    @Autowired
+    private SseQueueService sseQueueService;
+    @Autowired
+    private ResultQueue resultQueue;
 
     @Scheduled(fixedRate = 1000)
     public void countDown(){
         if(countdown.getCountdown()==startCount){
             currentGame = initGameService.gameInit();
-        }
-        if(countdown.getCountdown()==0){
-            sseResultService.sendResult(resultDTO);
+            sseQueueService.sendQueue();
         }
         if(countdown.getCountdown()==7){
             resultDTO = gameService.calculateGameResult();
+        }
+        if(countdown.getCountdown()==0){
+            sseResultService.sendResult(resultDTO);
         }
         sseCountdownService.sendEvents(countdown.getCountdown());
         countdown.decrement();
         if(countdown.getCountdown()==endCount){
             countdown.reset();
+            gameService.markGameAsOver(getCurrentGame());
         }
         System.out.println(countdown.getCountdown());
     }

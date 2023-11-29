@@ -2,6 +2,7 @@ package com.game.slotmachine.controller;
 
 
 import com.game.slotmachine.service.sseService.SseCountdownService;
+import com.game.slotmachine.service.sseService.SseQueueService;
 import com.game.slotmachine.service.sseService.SseResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,6 +18,8 @@ public class SseEventController {
     SseCountdownService sseCountdownService;
     @Autowired
     SseResultService sseResultService;
+    @Autowired
+    SseQueueService sseQueueService;
 
     @GetMapping(path = "/countdown", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter countEventStream(){
@@ -29,6 +32,13 @@ public class SseEventController {
     public SseEmitter resultEventStream(){
         SseEmitter emitter = new SseEmitter();
         sseResultService.addEmitter(emitter);
+        return emitter;
+    }
+
+    @GetMapping(path = "/queue", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter queueEventStream(){
+        SseEmitter emitter = new SseEmitter();
+        sseQueueService.addEmitter(emitter);
         return emitter;
     }
 }

@@ -50,7 +50,7 @@ public class SseResultService {
     public void sentResultToLateConnection(ResultBean resultBean, SseEmitter sseEmitter){
         try{
             System.out.println(resultBean.toString());
-            sseEmitter.send(new ResultPayload(resultBean.getSlot1(), resultBean.getSlot2()));
+            sseEmitter.send(new ResultPayload(resultBean.getSlot1List(), resultBean.getSlot2List()));
         }
         catch (IOException e){
             e.printStackTrace();
