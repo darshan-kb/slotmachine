@@ -35,4 +35,16 @@ public class CachedTotalBetsAmountMap {
     public double getTotalAmountByBetNumber(int betNumber){
         return betAmountMap.get(betNumber);
     }
+
+    public double getTotalAmountBetOnCurrentGame(){
+        return betAmountMap.values().stream().reduce(0.0, (a,b)->a+b);
+    }
+
+    @Override
+    public String toString() {
+
+        return "CachedTotalBetsAmountMap{" +
+                "betAmountMap=" + betAmountMap.values().toString() +
+                '}';
+    }
 }

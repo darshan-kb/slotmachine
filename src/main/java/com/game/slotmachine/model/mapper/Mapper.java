@@ -19,6 +19,6 @@ public class Mapper {
     }
 
     public ResultDTO ResultBeanToResultDTO(ResultBean resultBean){
-        return new ResultDTO(resultBean.getSlot1(), resultBean.getSlot2());
+        return new ResultDTO(resultBean.getSlot1List(), resultBean.getSlot2List());
     }
 }
