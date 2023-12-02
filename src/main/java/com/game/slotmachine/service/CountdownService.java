@@ -7,6 +7,9 @@ import com.game.slotmachine.model.dto.ResultDTO;
 import com.game.slotmachine.service.sseService.SseCountdownService;
 import com.game.slotmachine.service.sseService.SseQueueService;
 import com.game.slotmachine.service.sseService.SseResultService;
+import com.game.slotmachine.service.websocketservice.WebsocketCountdownService;
+import com.game.slotmachine.service.websocketservice.WebsocketQueueService;
+import com.game.slotmachine.service.websocketservice.WebsocketResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -42,24 +45,34 @@ public class CountdownService {
     private SseQueueService sseQueueService;
     @Autowired
     private ResultQueue resultQueue;
+    @Autowired
+    private WebsocketCountdownService websocketCountdownService;
+    @Autowired
+    private WebsocketQueueService websocketQueueService;
+    @Autowired
+    private WebsocketResultService websocketResultService;
 
     @Scheduled(fixedRate = 1000)
     public void countDown(){
         if(countdown.getCountdown()==startCount){
             currentGame = initGameService.gameInit();
-            sseQueueService.sendQueue();
+            //sseQueueService.sendQueue();
+            websocketQueueService.sendQueue();
         }
         if(countdown.getCountdown()==7){
             resultDTO = gameService.calculateGameResult();
         }
         if(countdown.getCountdown()==0){
-            sseResultService.sendResult(resultDTO);
+            //sseResultService.sendResult(resultDTO);
+            websocketResultService.sendResult();
         }
-        sseCountdownService.sendEvents(countdown.getCountdown());
+        //sseCountdownService.sendEvents(countdown.getCountdown());
+        websocketCountdownService.sendCountdown();
         countdown.decrement();
         if(countdown.getCountdown()==endCount){
             countdown.reset();
             gameService.markGameAsOver(getCurrentGame());
+            gameService.updateQueue();
         }
         System.out.println(countdown.getCountdown());
     }

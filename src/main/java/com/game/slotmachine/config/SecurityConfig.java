@@ -29,8 +29,13 @@ public class SecurityConfig {
             c.configurationSource(source);
         });
         http.authorizeHttpRequests((a) -> {
+            a.requestMatchers("/ws").permitAll();
+            a.requestMatchers("/ws/**").permitAll();
             a.requestMatchers("/sse/*").permitAll();
             a.requestMatchers("/ticket").permitAll();
+            a.requestMatchers("/queue").permitAll();
+            a.requestMatchers("/result").permitAll();
+            //a.anyRequest().permitAll();
             a.anyRequest().authenticated();
         });
         //http.cors().disable().build();

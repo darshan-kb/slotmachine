@@ -44,7 +44,7 @@ public class GameService {
             List<Integer> slot1List = getShuffledAllElementsList(12);
             List<Integer> slot2List = getShuffledAllElementsList(3);
             updateResultBean(slot1List,slot2List,new int[]{slot1List.get(11), slot2List.get(2)});
-            updateQueue(new int[]{slot1List.get(11), slot2List.get(2)});
+            //updateQueue(new int[]{slot1List.get(11), slot2List.get(2)});
             return new ResultDTO(slot1List, slot2List);
         }
         int[] winnerBet = validBetPairs.get(ThreadLocalRandom.current().nextInt(0, validBetPairs.size()));
@@ -52,7 +52,7 @@ public class GameService {
         List<Integer> slot1List = getShuffledList(12,winnerBet[0]);
         List<Integer> slot2List = getShuffledList(3,winnerBet[1]);
         updateResultBean(slot1List,slot2List,winnerBet);
-        updateQueue(winnerBet);
+        //updateQueue(winnerBet);
         System.out.println(resultBean);
         return mapper.ResultBeanToResultDTO(resultBean);
     }
@@ -112,5 +112,11 @@ public class GameService {
         System.out.println(resultQueue.toString());
         resultQueue.pop();
         resultQueue.push(queueElement);
+    }
+
+    public void updateQueue(){
+        System.out.println(resultQueue.toString());
+        resultQueue.pop();
+        resultQueue.push(new int[]{resultBean.getSlot1(),resultBean.getSlot2()});
     }
 }
