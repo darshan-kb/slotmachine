@@ -11,4 +11,5 @@ import java.util.List;
 public class ResultPayload {
     private List<Integer> slot1;
     private List<Integer> slot2;
+    private boolean spin;
 }
