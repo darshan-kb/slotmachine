@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -29,13 +30,12 @@ public class TicketController {
     Countdown countdown;
     Logger logger = LoggerFactory.getLogger(TicketController.class);
     @PostMapping
-
-    public ResponseEntity<?> addTicket(@RequestBody BetArray bets){
+    public ResponseEntity<?> addTicket(@RequestBody BetArray bets, Principal p){
         if(countdown.getCountdown()<=drawCloseTime){
             return ResponseEntity.badRequest().body("Draw close");
         }
-        TicketDTO ticketDTO = ticketService.addTicket(bets.getBets());
-        return new ResponseEntity<TicketDTO>(ticketDTO, HttpStatus.OK);
+        Double balance = ticketService.addTicket(bets.getBets(),p.getName());
+        return new ResponseEntity<Double>(balance, HttpStatus.OK);
     }
 
 }
