@@ -26,23 +26,31 @@ public class TicketService {
     private CountdownService countdownService;
     private CachedTotalBetsAmountMap betMap;
     private Mapper mapper;
+    private AccountDetailService accountDetailService;
 //    private Logger logger;
     @Transactional
-    public TicketDTO addTicket(List<Double> bets){
-
+    public double addTicket(List<Double> bets, String email){
+        double totalAmount = bets.stream().reduce(0.0,(a,b)->a+b);
         Ticket ticket = Ticket.builder()
                 .ticketTimeStamp(LocalDateTime.now())
-                .ticketAmount(bets.stream().reduce(0.0,(a,b)->a+b))
+                .ticketAmount(totalAmount)
                 .game(countdownService.getCurrentGame())
                 .build();
-        ticketRepository.save(ticket);
+        Ticket savedTicket = ticketRepository.save(ticket);
         for(int i=0;i<12;i++){
             if(bets.get(i)!=0) {
                 betRepository.save(new Bet(i + 1, bets.get(i), ticket));
                 betMap.addAmountToBet(i + 1, bets.get(i));
             }
         }
-        System.out.println(bets);
-        return mapper.ticketToTicketDTO(ticket);
+        double balance;
+        try{
+            balance = accountDetailService.addTicket(totalAmount, email, savedTicket.getTicketId());
+        }
+        catch(Exception e){
+            throw new RuntimeException("ticket is not created");
+        }
+
+        return balance;
     }
 }
