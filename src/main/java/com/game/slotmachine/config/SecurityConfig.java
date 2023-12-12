@@ -31,6 +31,8 @@ public class SecurityConfig {
     String jwksUri;
     @Value("${tokenuri}")
     String tokenUri;
+    @Value("${clienturi}")
+    String clientUri;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -38,7 +40,7 @@ public class SecurityConfig {
             CorsConfigurationSource source = s ->{
                 CorsConfiguration cc = new CorsConfiguration();
                 cc.setAllowCredentials(true);
-                cc.setAllowedOrigins(List.of("http://localhost:3006","http://192.168.1.12:3006"));
+                cc.setAllowedOrigins(List.of("http://localhost:3006",clientUri));
                 cc.setAllowedHeaders(List.of("*"));
                 cc.setAllowedMethods(List.of("*"));
                 return cc;
