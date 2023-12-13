@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
 
     @Query("SELECT g FROM Game g WHERE g.isGameOver=true ORDER BY g.gameTimeStamp DESC LIMIT 5")
     List<GameSlot1AndSlot2> fetchTop5GameOverRow();
-
+    @Query("SELECT g FROM Game g Where g.isGameOver=true ORDER BY g.gameTimeStamp DESC LIMIT 1")
+    Optional<GameSlot1AndSlot2> fetchLastFinisedGame();
 }

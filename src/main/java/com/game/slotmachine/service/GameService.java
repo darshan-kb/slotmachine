@@ -6,6 +6,7 @@ import com.game.slotmachine.beans.ResultQueue;
 import com.game.slotmachine.entities.Game;
 import com.game.slotmachine.model.dto.ResultDTO;
 import com.game.slotmachine.model.mapper.Mapper;
+import com.game.slotmachine.model.projections.GameSlot1AndSlot2;
 import com.game.slotmachine.repository.GameRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -118,5 +119,9 @@ public class GameService {
         System.out.println(resultQueue.toString());
         resultQueue.pop();
         resultQueue.push(new int[]{resultBean.getSlot1(),resultBean.getSlot2()});
+    }
+
+    public GameSlot1AndSlot2 getLastFinisedGame(){
+        return gameRepository.fetchLastFinisedGame().orElseThrow();
     }
 }
