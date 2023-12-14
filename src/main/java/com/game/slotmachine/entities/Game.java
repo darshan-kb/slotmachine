@@ -1,15 +1,13 @@
 package com.game.slotmachine.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,6 +25,8 @@ public class Game {
     private double totalAmount;
     private double totalRewardDisbursed;
     private boolean isGameOver;
+    @OneToMany(mappedBy = "game", cascade = CascadeType.REMOVE)
+    private List<Ticket> tickets;
 
     public Game(int slot1, int slot2, LocalDateTime gameTimeStamp, double totalAmount, double totalRewardDisbursed, boolean isGameOver) {
         this.slot1 = slot1;

@@ -20,6 +20,10 @@ public class Ticket {
     private double ticketAmount;
     @ManyToOne
     private Game game;
+    @ManyToOne
+    private User user;
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     private List<Bet> bets;
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+    private List<ClaimBet> claimBets;
 }
