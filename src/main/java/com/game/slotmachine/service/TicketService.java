@@ -4,6 +4,8 @@ import com.game.slotmachine.beans.CachedTotalBetsAmountMap;
 import com.game.slotmachine.entities.Bet;
 import com.game.slotmachine.entities.Ticket;
 import com.game.slotmachine.entities.User;
+import com.game.slotmachine.exception.InsufficientBalanceException;
+import com.game.slotmachine.exception.TicketWithZeroAmountException;
 import com.game.slotmachine.exception.UserNotFoundException;
 import com.game.slotmachine.model.dto.TicketDTO;
 import com.game.slotmachine.model.mapper.Mapper;
@@ -34,9 +36,12 @@ public class TicketService {
     private UserRepository userRepository;
 //    private Logger logger;
     @Transactional
-    public double addTicket(List<Double> bets, String email){
+    public double addTicket(List<Double> bets, String email) throws Exception{
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException());
         double totalAmount = bets.stream().reduce(0.0,(a,b)->a+b);
+        if(totalAmount==0.0){
+            throw new TicketWithZeroAmountException();
+        }
         System.out.println(countdownService.getCurrentGame().getGameId());
         Ticket ticket = Ticket.builder()
                 .ticketTimeStamp(LocalDateTime.now())
@@ -56,7 +61,7 @@ public class TicketService {
             balance = accountDetailService.addTicket(totalAmount, email, savedTicket.getTicketId());
         }
         catch(Exception e){
-            throw new RuntimeException("ticket is not created");
+            throw new InsufficientBalanceException();
         }
 
         return balance;
