@@ -51,6 +51,8 @@ public class CountdownService {
     private WebsocketQueueService websocketQueueService;
     @Autowired
     private WebsocketResultService websocketResultService;
+    @Autowired
+    private ClaimService claimService;
 
     @Scheduled(fixedRate = 1000)
     public void countDown(){
@@ -63,15 +65,14 @@ public class CountdownService {
             resultDTO = gameService.calculateGameResult();
         }
         if(countdown.getCountdown()==0){
-            //sseResultService.sendResult(resultDTO);
             websocketResultService.sendResult();
         }
-        //sseCountdownService.sendEvents(countdown.getCountdown());
         websocketCountdownService.sendCountdown();
         countdown.decrement();
         if(countdown.getCountdown()==endCount){
             countdown.reset();
             gameService.markGameAsOver(getCurrentGame());
+            claimService.addClaim(resultDTO,getCurrentGame());
             gameService.updateQueue();
         }
         System.out.println(countdown.getCountdown());

@@ -22,7 +22,8 @@ public class User {
     private String role;
     private String username;
     private String email;
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-//    private List<Ticket> tickets;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Ticket> tickets;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ClaimBet> claimBets;
 }

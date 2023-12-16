@@ -28,6 +28,7 @@ public class GameService {
     private Mapper mapper;
     private GameRepository gameRepository;
     private ResultQueue resultQueue;
+    private ClaimService claimService;
 
     public ResultDTO calculateGameResult(){
         List<Double> doubleBetAmountList  = betsAmountMap.getBetsMap().values().stream().map(i->i*20.0).collect(Collectors.toList());
@@ -97,7 +98,8 @@ public class GameService {
         game.setSlot1(resultBean.getSlot1());
         game.setSlot2(resultBean.getSlot2());
         game.setTotalRewardDisbursed(resultBean.getTotalAmountDisbursedToUsers());
-        gameRepository.save(game);
+        Game sgame = gameRepository.save(game);
+        //claimService.addClaim(resultBean,sgame);
     }
 
     public void updateResultBean(List<Integer> slot1List, List<Integer> slot2List, int[] winnerBet){
