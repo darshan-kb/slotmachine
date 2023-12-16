@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler {
 
-//    @ExceptionHandler(DrawCloseException.class)
-//    public ResponseEntity<ApiResponse> handleDrawClosedRequest(){
-//        ApiResponse ar = new ApiResponse("Draw Closed",false);
-//        return new ResponseEntity<ApiResponse>(ar, HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler(DrawCloseException.class)
+    public ResponseEntity<ApiResponse> handleDrawClosedRequest(){
+        ApiResponse ar = new ApiResponse("Draw Closed",false);
+        return new ResponseEntity<ApiResponse>(ar, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ApiResponse> handleUserNotFoundRequest(){
@@ -21,9 +21,15 @@ public class RestResponseEntityExceptionHandler {
         return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(InsufficientBalanceException.class)
-//    public ResponseEntity<ApiResponse> handleInsufficientBalance(){
-//        ApiResponse ar = new ApiResponse("Insufficient balance",false);
-//        return new ResponseEntity<ApiResponse>(ar, HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<ApiResponse> handleInsufficientBalance(){
+        ApiResponse ar = new ApiResponse("Insufficient balance",false);
+        return new ResponseEntity<ApiResponse>(ar, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TicketWithZeroAmountException.class)
+    public ResponseEntity<ApiResponse> handleTicketWithZeroAmount(){
+        ApiResponse ar = new ApiResponse("Cannot create ticket with 0 amount",false);
+        return new ResponseEntity<ApiResponse>(ar, HttpStatus.BAD_REQUEST);
+    }
 }
