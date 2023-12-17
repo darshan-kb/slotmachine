@@ -1,8 +1,6 @@
 package com.game.slotmachine.service.sseService;
 
 import com.game.slotmachine.beans.ResultQueue;
-import com.game.slotmachine.model.payload.QueuePayload;
-import com.game.slotmachine.model.payload.SseCountdownPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
