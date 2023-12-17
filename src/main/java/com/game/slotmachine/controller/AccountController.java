@@ -1,6 +1,8 @@
 package com.game.slotmachine.controller;
 
+import com.game.slotmachine.model.dto.UserDTO;
 import com.game.slotmachine.service.AccountDetailService;
+import com.game.slotmachine.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +17,16 @@ import java.security.Principal;
 public class AccountController {
     @Autowired
     AccountDetailService accountDetailService;
+    @Autowired
+    SignUpService signUpService;
 
     @GetMapping("/account/balance")
     public ResponseEntity<Double> getAccountBalance(Principal p){
         double balance = accountDetailService.getBalance(p.getName());
         return ResponseEntity.ok(balance);
     }
-//    @PostMapping("/account")
-//    public ResponseEntity<UserDTO> createAccount(@RequestBody UserDTO user){
-//        return new ResponseEntity<UserDTO>(signUpService.signUpUser(user), HttpStatus.OK);
-//    }
+    @PostMapping("/account")
+    public ResponseEntity<UserDTO> createAccount(@RequestBody UserDTO user){
+        return new ResponseEntity<UserDTO>(signUpService.signUpUser(user), HttpStatus.OK);
+    }
 }
