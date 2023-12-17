@@ -3,9 +3,11 @@ package com.game.slotmachine.model.mapper;
 import com.game.slotmachine.beans.ResultBean;
 import com.game.slotmachine.entities.ClaimBet;
 import com.game.slotmachine.entities.Ticket;
+import com.game.slotmachine.entities.User;
 import com.game.slotmachine.model.dto.ClaimDTO;
 import com.game.slotmachine.model.dto.ResultDTO;
 import com.game.slotmachine.model.dto.TicketDTO;
+import com.game.slotmachine.model.dto.UserDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,5 +34,8 @@ public class Mapper {
                 .betNumber(claim.getBet().getBetNumber())
                 .ticketId(claim.getTicket().getTicketId())
                 .build();
+    }
+    public static User toUser(UserDTO userDTO){
+        return new User(userDTO.getUsername(),userDTO.getEmail(), userDTO.getRole());
     }
 }
