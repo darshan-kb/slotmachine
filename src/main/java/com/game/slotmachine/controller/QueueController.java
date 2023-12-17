@@ -1,6 +1,7 @@
 package com.game.slotmachine.controller;
 
 import com.game.slotmachine.beans.ResultQueue;
+import com.game.slotmachine.model.payload.QueuePayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class QueueController {
     ResultQueue resultQueue;
 
     @GetMapping("/queue")
-    public ResponseEntity<Queue<int[]>> getResultQueue(){
+    public ResponseEntity<Queue<QueuePayload>> getResultQueue(){
         return new ResponseEntity<>(resultQueue.getQueue(), HttpStatus.OK);
     }
 }

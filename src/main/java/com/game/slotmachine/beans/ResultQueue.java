@@ -1,6 +1,7 @@
 package com.game.slotmachine.beans;
 
 import com.game.slotmachine.entities.Game;
+import com.game.slotmachine.model.payload.QueuePayload;
 import com.game.slotmachine.model.projections.GameSlot1AndSlot2;
 import com.game.slotmachine.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.Queue;
 
 @Component
 public class ResultQueue {
-    private Queue<int []> queue;
+    private Queue<QueuePayload> queue;
 
     public ResultQueue(){
         queue = new ArrayDeque<>();
@@ -21,19 +22,19 @@ public class ResultQueue {
 
     public void initializeQueue(List<GameSlot1AndSlot2> top5GameList){
         //List<GameSlot1AndSlot2> top5GameList = gameRepository.fetchTop5GameOverRow();
-        top5GameList.forEach((i)->queue.add(new int[]{i.getSlot1(), i.getSlot2()}));
+        top5GameList.forEach((i)->queue.add(new QueuePayload(i.getSlot1(), i.getSlot2(),i.getGameTimeStamp())));
 
     }
 
-    public Queue<int[]> getQueue() {
+    public Queue<QueuePayload> getQueue() {
         return queue;
     }
 
-    public boolean push(int[] queueElement){
+    public boolean push(QueuePayload queueElement){
         return queue.add(queueElement);
     }
 
-    public int[] pop(){
+    public QueuePayload pop(){
         return queue.poll();
     }
 

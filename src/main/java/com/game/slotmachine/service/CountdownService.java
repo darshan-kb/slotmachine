@@ -73,7 +73,7 @@ public class CountdownService {
             countdown.reset();
             gameService.markGameAsOver(getCurrentGame());
             claimService.addClaim(resultDTO,getCurrentGame());
-            gameService.updateQueue();
+            gameService.updateQueue(getCurrentGame());
         }
         System.out.println(countdown.getCountdown());
     }
