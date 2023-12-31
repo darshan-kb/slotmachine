@@ -10,4 +10,8 @@ public class LoginController {
     public String demo(Authentication a){
         return "Welcome "+a.getName();
     }
+    @GetMapping("/test")
+    public String test(){
+        return "Welcome";
+    }
 }

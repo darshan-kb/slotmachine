@@ -60,6 +60,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests((a) -> {
             a.requestMatchers("/ws").permitAll();
+            a.requestMatchers("/test").permitAll();
             a.requestMatchers("/ws/**").permitAll();
             a.requestMatchers("/sse/*").permitAll();
             //a.requestMatchers("/ticket").permitAll();
