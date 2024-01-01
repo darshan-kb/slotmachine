@@ -75,39 +75,39 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager(
-            ClientRegistrationRepository clientRegistrationRepository,
-            OAuth2AuthorizedClientRepository auth2AuthorizedClientRepository
-    ) {
-        OAuth2AuthorizedClientProvider provider =
-                OAuth2AuthorizedClientProviderBuilder.builder()
-                        .authorizationCode()
-                        .refreshToken()
-                        .clientCredentials()
-                        .build();
-
-        DefaultOAuth2AuthorizedClientManager defaultOAuth2AuthorizedClientManager
-                = new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository, auth2AuthorizedClientRepository);
-        defaultOAuth2AuthorizedClientManager.setAuthorizedClientProvider(provider);
-
-        return defaultOAuth2AuthorizedClientManager;
-    }
-
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        ClientRegistration c1 = ClientRegistration.withRegistrationId("11")
-                .clientId("slotserver")
-                .clientSecret("secret")
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .tokenUri(tokenUri)
-                .scope(OidcScopes.OPENID)
-                .build();
-
-        InMemoryClientRegistrationRepository clientRegistrationRepository =
-                new InMemoryClientRegistrationRepository(c1);
-
-        return clientRegistrationRepository;
-    }
+//    @Bean
+//    public OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager(
+//            ClientRegistrationRepository clientRegistrationRepository,
+//            OAuth2AuthorizedClientRepository auth2AuthorizedClientRepository
+//    ) {
+//        OAuth2AuthorizedClientProvider provider =
+//                OAuth2AuthorizedClientProviderBuilder.builder()
+//                        .authorizationCode()
+//                        .refreshToken()
+//                        .clientCredentials()
+//                        .build();
+//
+//        DefaultOAuth2AuthorizedClientManager defaultOAuth2AuthorizedClientManager
+//                = new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository, auth2AuthorizedClientRepository);
+//        defaultOAuth2AuthorizedClientManager.setAuthorizedClientProvider(provider);
+//
+//        return defaultOAuth2AuthorizedClientManager;
+//    }
+//
+//    @Bean
+//    public ClientRegistrationRepository clientRegistrationRepository() {
+//        ClientRegistration c1 = ClientRegistration.withRegistrationId("11")
+//                .clientId("slotserver")
+//                .clientSecret("secret")
+//                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+//                .tokenUri(tokenUri)
+//                .scope(OidcScopes.OPENID)
+//                .build();
+//
+//        InMemoryClientRegistrationRepository clientRegistrationRepository =
+//                new InMemoryClientRegistrationRepository(c1);
+//
+//        return clientRegistrationRepository;
+//    }
 }
