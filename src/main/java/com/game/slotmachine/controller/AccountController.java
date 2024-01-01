@@ -29,8 +29,8 @@ public class AccountController {
         double balance = accountDetailService.getBalance();
         return ResponseEntity.ok(balance);
     }
-    @PostMapping("/account")
-    public ResponseEntity<UserDTO> createAccount(@RequestBody UserDTO user){
-        return new ResponseEntity<UserDTO>(signUpService.signUpUser(user), HttpStatus.OK);
-    }
+//    @PostMapping("/account")
+//    public ResponseEntity<UserDTO> createAccount(@RequestBody UserDTO user){
+//        return new ResponseEntity<UserDTO>(signUpService.signUpUser(user), HttpStatus.OK);
+//    }
 }

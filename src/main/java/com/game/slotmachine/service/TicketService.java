@@ -36,8 +36,10 @@ public class TicketService {
     private UserRepository userRepository;
 //    private Logger logger;
     @Transactional
-    public double addTicket(List<Double> bets, String email) throws Exception{
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException());
+    public double addTicket(List<Double> bets, String email, String authorities) throws Exception{
+        User user = userRepository.findByEmail(email).orElseGet(() -> {
+            return userRepository.save(new User(email,email,authorities));
+        });
         double totalAmount = bets.stream().reduce(0.0,(a,b)->a+b);
         if(totalAmount==0.0){
             throw new TicketWithZeroAmountException();

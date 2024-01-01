@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @GetMapping("/demo")
     public String demo(Authentication a){
+        System.out.println(a.getAuthorities().toString());
         return "Welcome "+a.getName();
     }
     @GetMapping("/test")
