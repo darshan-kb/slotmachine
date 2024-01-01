@@ -58,7 +58,7 @@ public class TicketService {
         }
         double balance;
         try{
-            balance = accountDetailService.addTicket(totalAmount, email, savedTicket.getTicketId());
+            balance = accountDetailService.addTicket(totalAmount, savedTicket.getTicketId());
         }
         catch(Exception e){
             throw new InsufficientBalanceException();

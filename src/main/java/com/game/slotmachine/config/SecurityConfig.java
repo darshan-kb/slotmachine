@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
@@ -36,18 +37,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.cors((c)->{
-            CorsConfigurationSource source = s ->{
-                CorsConfiguration cc = new CorsConfiguration();
-                cc.setAllowCredentials(true);
-                cc.setAllowedOrigins(List.of("http://localhost:3006",clientUri));
-                cc.setAllowedHeaders(List.of("*"));
-                cc.setAllowedMethods(List.of("*"));
-                return cc;
-            };
-            c.configurationSource(source);
-        });
-
+//        http.cors((c)->{
+//            CorsConfigurationSource source = s ->{
+//                CorsConfiguration cc = new CorsConfiguration();
+//                cc.setAllowCredentials(true);
+//                cc.setAllowedOrigins(List.of("http://localhost:3006",clientUri));
+//                cc.setAllowedHeaders(List.of("*"));
+//                cc.setAllowedMethods(List.of("*"));
+//                return cc;
+//            };
+//            c.configurationSource(source);
+//        });
+        http.cors(AbstractHttpConfigurer::disable);
+        System.out.println(clientUri+" "+jwksUri);
         http.oauth2ResourceServer(
                 r -> r.jwt((j)-> {
                             j.jwkSetUri(jwksUri);
@@ -56,7 +58,7 @@ public class SecurityConfig {
                 )
 
         );
-        http.oauth2Client();
+        //http.oauth2Client();
 
         http.authorizeHttpRequests((a) -> {
             a.requestMatchers("/ws").permitAll();

@@ -11,11 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddTicketPayload {
     private double amount;
-    private String email;
     private String ticketId;
-
-    public AddTicketPayload(double amount, String email) {
-        this.amount = amount;
-        this.email = email;
-    }
 }

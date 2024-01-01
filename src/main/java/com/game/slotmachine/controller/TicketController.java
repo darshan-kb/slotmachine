@@ -37,6 +37,7 @@ public class TicketController {
 //            return ResponseEntity.badRequest().body("Draw close");
             throw new DrawCloseException();
         }
+        logger.info("In ticket controller to add ticket");
         Double balance = ticketService.addTicket(bets.getBets(),p.getName());
         return new ResponseEntity<ApiResponse>(new ApiResponse(Double.toString(balance),true), HttpStatus.OK);
     }
