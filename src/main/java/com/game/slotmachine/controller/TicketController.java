@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +33,14 @@ public class TicketController {
     Countdown countdown;
     Logger logger = LoggerFactory.getLogger(TicketController.class);
     @PostMapping
-    public ResponseEntity<?> addTicket(@RequestBody BetArray bets, Principal p) throws Exception{
+    public ResponseEntity<?> addTicket(@RequestBody BetArray bets, Authentication a) throws Exception{
         if(countdown.getCountdown()<=drawCloseTime){
 //            return ResponseEntity.badRequest().body("Draw close");
             throw new DrawCloseException();
         }
-        Double balance = ticketService.addTicket(bets.getBets(),p.getName());
+        logger.info("In ticket controller to add ticket");
+        String authorities = a.getAuthorities().toString();
+        Double balance = ticketService.addTicket(bets.getBets(),a.getName(),authorities.substring(1,authorities.length()-1));
         return new ResponseEntity<ApiResponse>(new ApiResponse(Double.toString(balance),true), HttpStatus.OK);
     }
 

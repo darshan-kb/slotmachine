@@ -1,6 +1,9 @@
 package com.game.slotmachine.service;
 
 import com.game.slotmachine.model.payload.AddTicketPayload;
+import com.netflix.discovery.converters.Auto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -18,14 +21,15 @@ public class AccountDetailService {
     private String addURL;
     @Value("${ticketErrorURL}")
     private String ticketErrorURL;
-
+    @Autowired
+    RestTemplate restTemplate;
     @Autowired
     TokenService tokenService;
-    public double getBalance(String email){
-        RestTemplate restTemplate = new RestTemplate();
-        String resourseURL = balanceURL+email;
+    Logger logger = LoggerFactory.getLogger(AccountDetailService.class);
+    public double getBalance(){
+        String resourseURL = balanceURL;
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization","Bearer "+tokenService.getToken());
+        httpHeaders.add("Authorization",tokenService.getAuthTokenFromRequest());
         HttpEntity<String> http = new HttpEntity<>(httpHeaders);
         ResponseEntity<Double> response = restTemplate.exchange(resourseURL, HttpMethod.GET, http, Double.class);
         return response.getBody();
@@ -37,12 +41,11 @@ public class AccountDetailService {
         ResponseEntity<String> response = restTemplate.getForEntity(resourseURL, String.class);
     }
 
-    public double addTicket(double amount, String email, long ticketId){
-
-        RestTemplate restTemplate = new RestTemplate();
+    public double addTicket(double amount, long ticketId){
+        logger.info("Adding ticket with ticketId "+ticketId);
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","Bearer "+tokenService.getToken());
-        HttpEntity<String> entity = new HttpEntity(new AddTicketPayload(amount, email, "slot-ticketId:"+ticketId),headers);
+        headers.set("Authorization",tokenService.getAuthTokenFromRequest());
+        HttpEntity<String> entity = new HttpEntity(new AddTicketPayload(amount, "slot-ticketId:"+ticketId),headers);
 
         ResponseEntity<Double> response = restTemplate.exchange(addURL, HttpMethod.POST, entity, Double.class);
         System.out.println(response.getBody());
@@ -50,14 +53,14 @@ public class AccountDetailService {
 
     }
 
-    public double ticketError(long amount, String email){
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","Bearer "+tokenService.getToken());
-        HttpEntity<String> entity = new HttpEntity(new AddTicketPayload(amount*1.0, email),headers);
-
-        ResponseEntity<Double> response = restTemplate.exchange(ticketErrorURL, HttpMethod.POST, entity, Double.class);
-        System.out.println(response.getBody());
-        return response.getBody();
-    }
+//    public double ticketError(long amount, String email){
+//        RestTemplate restTemplate = new RestTemplate();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set("Authorization","Bearer "+tokenService.getToken());
+//        HttpEntity<String> entity = new HttpEntity(new AddTicketPayload(amount*1.0, email),headers);
+//
+//        ResponseEntity<Double> response = restTemplate.exchange(ticketErrorURL, HttpMethod.POST, entity, Double.class);
+//        System.out.println(response.getBody());
+//        return response.getBody();
+//    }
 }

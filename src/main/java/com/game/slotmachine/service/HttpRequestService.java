@@ -18,13 +18,14 @@ public class HttpRequestService {
     @Value("${redeemClaimURL}")
     private String redeemClaimURL;
     @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
     private TokenService tokenService;
     Logger logger = LoggerFactory.getLogger(HttpRequestService.class);
     public ResponseEntity<Double> sendPostRequestToRedeemClaim(AccountRedeemClaimPayload accountRedeemClaimPayload){
         logger.info(redeemClaimURL +" "+accountRedeemClaimPayload);
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization","Bearer "+tokenService.getToken());
+        headers.set("Authorization",tokenService.getAuthTokenFromRequest());
         HttpEntity<String> entity = new HttpEntity(accountRedeemClaimPayload,headers);
         ResponseEntity<Double> response = restTemplate.exchange(redeemClaimURL, HttpMethod.POST, entity, Double.class);
         return response;

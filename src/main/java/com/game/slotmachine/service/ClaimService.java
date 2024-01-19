@@ -77,7 +77,7 @@ public class ClaimService {
         ClaimBet claimBet = claimBetRepository.findById(claimId).orElseThrow(() -> new IllegalStateException("ClaimId not found"));
         if(claimBet.isClaimed())
             throw new IllegalStateException("Already claimed");
-        AccountRedeemClaimPayload accountRedeemClaimPayload = new AccountRedeemClaimPayload(email, claimBet.getAmount(), "slot-claimId:"+claimId);
+        AccountRedeemClaimPayload accountRedeemClaimPayload = new AccountRedeemClaimPayload(claimBet.getAmount(), "slot-claimId:"+claimId);
         ResponseEntity<Double> response = httpRequestService.sendPostRequestToRedeemClaim(accountRedeemClaimPayload);
         if(response.getStatusCode()!= HttpStatus.OK)
             throw new RuntimeException("unable to claim");
