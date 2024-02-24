@@ -6,10 +6,13 @@ import com.game.slotmachine.beans.ResultQueue;
 import com.game.slotmachine.entities.Game;
 import com.game.slotmachine.model.dto.ResultDTO;
 import com.game.slotmachine.model.mapper.Mapper;
+import com.game.slotmachine.model.payload.FixResult;
 import com.game.slotmachine.model.payload.QueuePayload;
 import com.game.slotmachine.model.projections.GameSlot1AndSlot2;
 import com.game.slotmachine.repository.GameRepository;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,7 @@ public class GameService {
     private GameRepository gameRepository;
     private ResultQueue resultQueue;
     private ClaimService claimService;
+    private static Logger LOGGER = LoggerFactory.getLogger(GameService.class);
 
     public ResultDTO calculateGameResult(){
         List<Double> doubleBetAmountList  = betsAmountMap.getBetsMap().values().stream().map(i->i*20.0).collect(Collectors.toList());
@@ -104,12 +108,14 @@ public class GameService {
     }
 
     public void updateResultBean(List<Integer> slot1List, List<Integer> slot2List, int[] winnerBet){
+        LOGGER.info("Result Bean before update {}",resultBean);
         resultBean.setSlot1(winnerBet[0]);
         resultBean.setSlot2(winnerBet[1]);
         resultBean.setSlot1List(slot1List);
         resultBean.setSlot2List(slot2List);
         resultBean.setTotalGameAmount(totalGameAmount());
         resultBean.setTotalAmountDisbursedToUsers(betsAmountMap.getTotalAmountByBetNumber(winnerBet[0])*winnerBet[1]*10);
+        LOGGER.info("Result Bean after update {}",resultBean);
     }
 
 //    public void updateQueue(int[] queueElement){
@@ -126,5 +132,13 @@ public class GameService {
 
     public GameSlot1AndSlot2 getLastFinisedGame(){
         return gameRepository.fetchLastFinisedGame().orElseThrow();
+    }
+
+    public int fixResult(FixResult fixResult){
+        LOGGER.info("fix result payload {}",fixResult.toString());
+        List<Integer> slot1List = getShuffledList(12, fixResult.getSlot1());
+        List<Integer> slot2List = getShuffledList(3, fixResult.getSlot2());
+        updateResultBean(slot1List,slot2List,new int[]{fixResult.getSlot1(),fixResult.getSlot2()});
+        return 1;
     }
 }

@@ -35,20 +35,21 @@ public class ClaimService {
     UserRepository userRepository;
     @Autowired
     HttpRequestService httpRequestService;
-    Logger logger = LoggerFactory.getLogger(ClaimService.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(ClaimService.class);
     @Transactional
     public void addClaim(ResultDTO resultBean, Game currentGame){
+        LOGGER.info("Adding claim for this result {}",resultBean);
         Game game = gameRepository.findById(currentGame.getGameId()).orElseThrow(()->new RuntimeException());
-        logger.info(Long.toString(game.getGameId())+" "+resultBean.toString());
+        LOGGER.info(Long.toString(game.getGameId())+" "+resultBean.toString());
         //List<Ticket> tickets = ticketRepository.findAllByGame(game);
         List<Ticket> tickets = game.getTickets();
-        logger.info(tickets.toString());
+        LOGGER.info(tickets.toString());
         if(tickets==null)
             return;
         for(Ticket ticket : tickets){
             List<Bet> bets = ticket.getBets();
             for(Bet bet : bets){
-                logger.info(bet.toString());
+                LOGGER.info(bet.toString());
                 if(bet.getBetNumber() == resultBean.slot1().get(11)) {
                     claimBetRepository.save(ClaimBet.builder()
                                     .claimed(false)
@@ -72,7 +73,7 @@ public class ClaimService {
 
     @Transactional
     public double redeemClaim(long claimId, String email){
-        logger.info(claimId+" "+email);
+        LOGGER.info(claimId+" "+email);
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found"));
         ClaimBet claimBet = claimBetRepository.findById(claimId).orElseThrow(() -> new IllegalStateException("ClaimId not found"));
         if(claimBet.isClaimed())

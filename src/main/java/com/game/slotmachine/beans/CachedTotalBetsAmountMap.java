@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class CachedTotalBetsAmountMap {
     private ConcurrentHashMap<Integer,Double> betAmountMap;
-    Logger logger = LoggerFactory.getLogger(CachedTotalBetsAmountMap.class);
+    private static Logger logger = LoggerFactory.getLogger(CachedTotalBetsAmountMap.class);
     public CachedTotalBetsAmountMap(){
         betAmountMap = new ConcurrentHashMap<>();
         initializeValueMap();
@@ -33,6 +33,7 @@ public class CachedTotalBetsAmountMap {
     }
 
     public double getTotalAmountByBetNumber(int betNumber){
+        logger.info("winning bet number {}",betNumber);
         return betAmountMap.get(betNumber);
     }
 

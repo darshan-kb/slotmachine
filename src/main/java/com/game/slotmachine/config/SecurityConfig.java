@@ -65,6 +65,7 @@ public class SecurityConfig {
             a.requestMatchers("/test").permitAll();
             a.requestMatchers("/ws/**").permitAll();
             a.requestMatchers("/sse/*").permitAll();
+            //a.requestMatchers("/admin/**").hasRole("ADMIN");
             //a.requestMatchers("/ticket").permitAll();
             //a.requestMatchers("/queue").permitAll();
             //a.requestMatchers("/result").permitAll();

@@ -15,4 +15,5 @@ public class GameController {
     public ResponseEntity<?> getLastFinisedGame(){
         return new ResponseEntity(gameService.getLastFinisedGame(), HttpStatus.OK);
     }
+
 }
