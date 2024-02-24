@@ -1,9 +1,11 @@
 package com.game.slotmachine.service;
 
 import com.game.slotmachine.beans.Countdown;
+import com.game.slotmachine.beans.ResultBean;
 import com.game.slotmachine.beans.ResultQueue;
 import com.game.slotmachine.entities.Game;
 import com.game.slotmachine.model.dto.ResultDTO;
+import com.game.slotmachine.model.mapper.Mapper;
 import com.game.slotmachine.service.sseService.SseCountdownService;
 import com.game.slotmachine.service.sseService.SseQueueService;
 import com.game.slotmachine.service.sseService.SseResultService;
@@ -53,6 +55,10 @@ public class CountdownService {
     private WebsocketResultService websocketResultService;
     @Autowired
     private ClaimService claimService;
+    @Autowired
+    private ResultBean resultBean;
+    @Autowired
+    private Mapper mapper;
 
     @Scheduled(fixedRate = 1000)
     public void countDown(){
@@ -61,7 +67,7 @@ public class CountdownService {
             //sseQueueService.sendQueue();
             websocketQueueService.sendQueue();
         }
-        if(countdown.getCountdown()==7){
+        if(countdown.getCountdown()==10){
             resultDTO = gameService.calculateGameResult();
         }
         if(countdown.getCountdown()==0){
@@ -72,7 +78,7 @@ public class CountdownService {
         if(countdown.getCountdown()==endCount){
             countdown.reset();
             gameService.markGameAsOver(getCurrentGame());
-            claimService.addClaim(resultDTO,getCurrentGame());
+            claimService.addClaim(mapper.ResultBeanToResultDTO(resultBean),getCurrentGame());
             gameService.updateQueue(getCurrentGame());
         }
         System.out.println(countdown.getCountdown());
