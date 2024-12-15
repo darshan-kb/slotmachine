@@ -3,6 +3,7 @@ server.port: 8081
 spring:
   datasource:
     url: jdbc:postgresql://192.168.0.102:5432/slotmachine
+#    url: jdbc:postgresql://localhost:5432/slotmachine
     username: postgres
     password: root
   jpa:
@@ -21,10 +22,10 @@ drawCloseTime: 10
 spring.mvc.async.request-timeout: -1
 
 #account URL
-addURL: http://accounts/ticket/add
+addURL: http://account/ticket/add
 ticketErrorURL: http://localhost:7070/ticket/error
-balanceURL: http://accounts/account/balance
-redeemClaimURL: http://accounts/claims
+balanceURL: http://account/account/balance
+redeemClaimURL: http://account/claims
 
 #auth URL
 tokenuri: http://auth/oauth2/token
