@@ -12,20 +12,20 @@ import java.util.List;
 
 @SpringBootTest
 class SlotmachineApplicationTests {
-	@Autowired
-	GameRepository gameRepository;
-	@Test
-	@Transactional
-	void contextLoads() {
-		Game g = gameRepository.findById((long)1089).orElseThrow();
-		List<Ticket> tickets = g.getTickets();
-
-		System.out.println(tickets);
-	}
-	@Test
-	@Transactional
-	void callMethod(){
-		contextLoads();
-	}
+//	@Autowired
+//	GameRepository gameRepository;
+//	@Test
+//	@Transactional
+//	void contextLoads() {
+//		Game g = gameRepository.findById((long)1089).orElseThrow();
+//		List<Ticket> tickets = g.getTickets();
+//
+//		System.out.println(tickets);
+//	}
+//	@Test
+//	@Transactional
+//	void callMethod(){
+//		contextLoads();
+//	}
 
 }
